@@ -37,6 +37,7 @@
     "blockstack": "^0.11.0",
     "bootstrap": "^3.3.7",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-router-dom": "^4.2.2"
   }
 }
