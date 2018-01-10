@@ -106,6 +106,7 @@ export default class Profile extends Component {
         .then((profile) => {
           this.setState({
             person: new Person(profile),
+            username: username
           })
         })
         .catch((error) => {
