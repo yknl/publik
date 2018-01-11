@@ -38,13 +38,6 @@ export default class Profile extends Component {
     this.isLocal = this.isLocal.bind(this);
   }
 
-  componentWillMount() {
-    this.setState({
-      person: new Person(loadUserData().profile),
-      username: loadUserData().username
-    });
-  }
-
   componentDidMount() {
     this.fetchData()
   }
