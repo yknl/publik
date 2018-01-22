@@ -30,12 +30,6 @@ export default class Profile extends Component {
       statusIndex: 0,
       isLoading: false
   	};
-
-    // this.handleNewStatusChange = this.handleNewStatusChange.bind(this);
-    // this.handleNewStatusSubmit = this.handleNewStatusSubmit.bind(this);
-    // this.saveNewStatus = this.saveNewStatus.bind(this);
-    // this.fetchData = this.fetchData.bind(this);
-    // this.isLocal = this.isLocal.bind(this);
   }
 
   componentDidMount() {
