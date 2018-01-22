@@ -31,11 +31,11 @@ export default class Profile extends Component {
       isLoading: false
   	};
 
-    this.handleNewStatusChange = this.handleNewStatusChange.bind(this);
-    this.handleNewStatusSubmit = this.handleNewStatusSubmit.bind(this);
-    this.saveNewStatus = this.saveNewStatus.bind(this);
-    this.fetchData = this.fetchData.bind(this);
-    this.isLocal = this.isLocal.bind(this);
+    // this.handleNewStatusChange = this.handleNewStatusChange.bind(this);
+    // this.handleNewStatusSubmit = this.handleNewStatusSubmit.bind(this);
+    // this.saveNewStatus = this.saveNewStatus.bind(this);
+    // this.fetchData = this.fetchData.bind(this);
+    // this.isLocal = this.isLocal.bind(this);
   }
 
   componentDidMount() {
@@ -166,14 +166,14 @@ export default class Profile extends Component {
                 <div className="col-md-12">
                   <textarea className="input-status" 
                     value={this.state.newStatus} 
-                    onChange={this.handleNewStatusChange} 
+                    onChange={e => this.handleNewStatusChange(e)} 
                     placeholder="What's on your mind?"
                   />
                 </div>
                 <div className="col-md-12 text-right">
                   <button
                     className="btn btn-primary btn-lg"
-                    onClick={this.handleNewStatusSubmit}
+                    onClick={e => this.handleNewStatusSubmit(e)}
                   >
                     Submit
                   </button>
