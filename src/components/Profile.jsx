@@ -59,8 +59,8 @@ export default class Profile extends Component {
     }
 
     statuses.unshift(status)
-
-    putFile(statusFileName, JSON.stringify(statuses))
+    const options = { encrypt: false }
+    putFile(statusFileName, JSON.stringify(statuses), options)
       .then(() => {
         this.setState({
           statuses: statuses
@@ -69,10 +69,10 @@ export default class Profile extends Component {
   }
 
   fetchData() {
-    // putFile(statusFileName, '', { public: true, encrypt: false })
     if (this.isLocal()) {
       this.setState({ isLoading: true })
-      getFile(statusFileName)
+      const options = { decrypt: false, zoneFileLookupURL: 'https://core.blockstack.org/v1/names/' }
+      getFile(statusFileName, options)
         .then((file) => {
           var statuses = JSON.parse(file || '[]')
           this.setState({
@@ -100,7 +100,7 @@ export default class Profile extends Component {
           console.log('could not resolve profile')
         })
 
-      const options = { username: username }
+      const options = { username: username, decrypt: false, zoneFileLookupURL: 'https://core.blockstack.org/v1/names/'}
 
       getFile(statusFileName, options)
         .then((file) => {
@@ -135,14 +135,14 @@ export default class Profile extends Component {
           <div className="col-md-offset-3 col-md-6">
             <div className="col-md-12">
               <div className="avatar-section">
-                <img 
-                  src={ person.avatarUrl() ? person.avatarUrl() : avatarFallbackImage } 
-                  className="img-rounded avatar" 
-                  id="avatar-image" 
+                <img
+                  src={ person.avatarUrl() ? person.avatarUrl() : avatarFallbackImage }
+                  className="img-rounded avatar"
+                  id="avatar-image"
                 />
                 <div className="username">
                   <h1>
-                    <span id="heading-name">{ person.name() ? person.name() 
+                    <span id="heading-name">{ person.name() ? person.name()
                       : 'Nameless Person' }</span>
                   </h1>
                   <span>{username}</span>
@@ -155,12 +155,12 @@ export default class Profile extends Component {
                 </div>
               </div>
             </div>
-            {this.isLocal() && 
+            {this.isLocal() &&
               <div className="new-status">
                 <div className="col-md-12">
-                  <textarea className="input-status" 
-                    value={this.state.newStatus} 
-                    onChange={e => this.handleNewStatusChange(e)} 
+                  <textarea className="input-status"
+                    value={this.state.newStatus}
+                    onChange={e => this.handleNewStatusChange(e)}
                     placeholder="What's on your mind?"
                   />
                 </div>
