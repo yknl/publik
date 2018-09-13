@@ -1,6 +1,9 @@
 import React, { Component, Link } from 'react';
 import Profile from './Profile.jsx';
 import Signin from './Signin.jsx';
+import Username from './username.js';
+import Feed from './feed.js';
+
 import {
   isSignInPending,
   isUserSignedIn,
@@ -32,7 +35,28 @@ export default class App extends Component {
     return (
       <div className="site-wrapper">
         <div className="site-wrapper-inner">
-          { !isUserSignedIn() ?
+          <Switch>
+            <Route
+              path='/username'
+              component={Username}
+            />
+            <Route
+              path='/feed'
+              component={Feed}
+            />
+            <Route
+              path='/'
+              component={Signin}
+            />
+{/*            <Route 
+              path='/:username?' 
+              render={
+                routeProps => <Profile handleSignOut={ this.handleSignOut } {...routeProps} />
+              } 
+            />*/}
+
+          </Switch>
+{/*          { !isUserSignedIn() ?
             <Signin handleSignIn={ this.handleSignIn } />
             : 
             <Switch>
@@ -43,7 +67,7 @@ export default class App extends Component {
                 } 
               />
             </Switch>
-          }
+          }*/}
         </div>
       </div>
     );

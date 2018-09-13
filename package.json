@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
+    "dev": "webpack-dev-server",
     "build": "webpack"
   },
   "repository": {
@@ -22,6 +23,7 @@
     "babel-loader": "^6.4.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.0",
     "file-loader": "^0.11.1",
@@ -31,14 +33,17 @@
     "style-loader": "^0.16.1",
     "uglify-es-webpack-plugin": "^0.10.0",
     "url-loader": "^0.5.8",
-    "webpack": "^2.3.3",
-    "webpack-dev-server": "^2.4.2"
+    "webpack": "^3.10.0",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^2.11.2",
+    "webpack-merge": "^4.1.4"
   },
   "dependencies": {
-    "blockstack": "^0.17.1",
+    "blockstack": "^18.0.4",
     "bootstrap": "^3.3.7",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-responsive-modal": "^3.3.0",
     "react-router-dom": "^4.2.2"
   }
 }
