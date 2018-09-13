@@ -1,8 +1,8 @@
 import React, { Component, Link } from 'react';
 import Profile from './Profile.jsx';
 import Signin from './Signin.jsx';
-import Username from './username.jsx';
-import Feed from './feed.jsx';
+import Username from './Username.jsx';
+import Feed from './Feed.jsx';
 
 import {
   isSignInPending,
