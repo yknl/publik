@@ -6,6 +6,7 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ManifestAssetPlugin = new CopyWebpackPlugin([ { from: 'src/assets/manifest.json', to: 'manifest.json' } ]);
 const NetlifyHeaderPlugin = new CopyWebpackPlugin([ { from: '_headers', to: '_headers', toType: 'file' } ]);
+const NetlifyRedirectPlugin = new CopyWebpackPlugin([ { from: '_redirects', to: '_redirects', toType: 'file' } ]);
 const IconAssetPlugin = new CopyWebpackPlugin([ { from: 'src/images/icon-192x192.png', to: 'icon-192x192.png' } ]);
 const UglifyEsPlugin = require('uglify-es-webpack-plugin');
 const UglifyEsPluginConfig = new UglifyEsPlugin({
@@ -66,6 +67,7 @@ module.exports = {
     HtmlWebpackPluginConfig, 
     ManifestAssetPlugin,
     NetlifyHeaderPlugin, 
+    NetlifyRedirectPlugin,
     IconAssetPlugin,
     UglifyEsPluginConfig
   ]
