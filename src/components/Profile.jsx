@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import {
-  isSignInPending,
-  loadUserData,
   Person,
-  getFile,
-  putFile,
   lookupProfile
 } from 'blockstack';
 
 const avatarFallbackImage = 'https://s3.amazonaws.com/onename/avatar-placeholder.png';
-const statusFileName = 'statuses.json'
 
 export default class Profile extends Component {
   constructor(props) {
@@ -36,10 +31,16 @@ export default class Profile extends Component {
     this.fetchData()
   }
 
-  handleNewStatusChange(event) {
+  componentWillMount() {
+    const { userSession } = this.props;
     this.setState({
-      newStatus: event.target.value
-    })
+      person: new Person(userSession.loadUserData().profile),
+      username: userSession.loadUserData().username
+    });
+  }
+
+  handleNewStatusChange(event) {
+    this.setState({newStatus: event.target.value})
   }
 
   handleNewStatusSubmit(event) {
@@ -50,6 +51,7 @@ export default class Profile extends Component {
   }
 
   saveNewStatus(statusText) {
+    const { userSession } = this.props
     let statuses = this.state.statuses
 
     let status = {
@@ -60,7 +62,7 @@ export default class Profile extends Component {
 
     statuses.unshift(status)
     const options = { encrypt: false }
-    putFile(statusFileName, JSON.stringify(statuses), options)
+    userSession.putFile('statuses.json', JSON.stringify(statuses), options)
       .then(() => {
         this.setState({
           statuses: statuses
@@ -69,15 +71,16 @@ export default class Profile extends Component {
   }
 
   fetchData() {
+    const { userSession } = this.props
+    this.setState({ isLoading: true })
     if (this.isLocal()) {
-      this.setState({ isLoading: true })
-      const options = { decrypt: false, zoneFileLookupURL: 'https://core.blockstack.org/v1/names/' }
-      getFile(statusFileName, options)
+      const options = { decrypt: false }
+      userSession.getFile('statuses.json', options)
         .then((file) => {
           var statuses = JSON.parse(file || '[]')
           this.setState({
-            person: new Person(loadUserData().profile),
-            username: loadUserData().username,
+            person: new Person(userSession.loadUserData().profile),
+            username: userSession.loadUserData().username,
             statusIndex: statuses.length,
             statuses: statuses,
           })
@@ -87,7 +90,6 @@ export default class Profile extends Component {
         })
     } else {
       const username = this.props.match.params.username
-      this.setState({ isLoading: true })
 
       lookupProfile(username)
         .then((profile) => {
@@ -100,9 +102,8 @@ export default class Profile extends Component {
           console.log('could not resolve profile')
         })
 
-      const options = { username: username, decrypt: false, zoneFileLookupURL: 'https://core.blockstack.org/v1/names/'}
-
-      getFile(statusFileName, options)
+      const options = { username: username, decrypt: false }
+      userSession.getFile('statuses.json', options)
         .then((file) => {
           var statuses = JSON.parse(file || '[]')
           this.setState({
@@ -124,12 +125,12 @@ export default class Profile extends Component {
   }
 
   render() {
-    const { handleSignOut } = this.props;
+    const { handleSignOut, userSession } = this.props;
     const { person } = this.state;
     const { username } = this.state;
 
     return (
-      !isSignInPending() && person ?
+      !userSession.isSignInPending() && person ?
       <div className="container">
         <div className="row">
           <div className="col-md-offset-3 col-md-6">

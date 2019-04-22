@@ -2,14 +2,13 @@ import React, { Component, Link } from 'react';
 import Profile from './Profile.jsx';
 import Signin from './Signin.jsx';
 import {
-  isSignInPending,
-  isUserSignedIn,
-  redirectToSignIn,
-  handlePendingSignIn,
-  signUserOut,
+  UserSession,
+  AppConfig
 } from 'blockstack';
-
 import { Switch, Route } from 'react-router-dom'
+
+const appConfig = new AppConfig(['store_write', 'publish_data'])
+const userSession = new UserSession({ appConfig: appConfig })
 
 export default class App extends Component {
 
@@ -19,27 +18,31 @@ export default class App extends Component {
 
   handleSignIn(e) {
     e.preventDefault();
-    const origin = window.location.origin
-    redirectToSignIn(origin, origin + '/manifest.json', ['store_write', 'publish_data'])
+    userSession.redirectToSignIn();
   }
 
   handleSignOut(e) {
     e.preventDefault();
-    signUserOut(window.location.origin);
+    userSession.signUserOut(window.location.origin);
   }
 
   render() {
     return (
       <div className="site-wrapper">
         <div className="site-wrapper-inner">
-          { !isUserSignedIn() ?
-            <Signin handleSignIn={ this.handleSignIn } />
+          { !userSession.isUserSignedIn() ?
+            <Signin userSession={userSession} handleSignIn={ this.handleSignIn } />
             : 
             <Switch>
               <Route 
                 path='/:username?' 
                 render={
-                  routeProps => <Profile handleSignOut={ this.handleSignOut } {...routeProps} />
+                  routeProps => 
+                    <Profile 
+                      userSession={userSession} 
+                      handleSignOut={ this.handleSignOut } 
+                      {...routeProps} 
+                    />
                 } 
               />
             </Switch>
@@ -50,8 +53,8 @@ export default class App extends Component {
   }
 
   componentWillMount() {
-    if (isSignInPending()) {
-      handlePendingSignIn().then((userData) => {
+    if (userSession.isSignInPending()) {
+      userSession.handlePendingSignIn().then((userData) => {
         window.location = window.location.origin;
       });
     }

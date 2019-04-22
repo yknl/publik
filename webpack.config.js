@@ -11,14 +11,14 @@ const UglifyEsPluginConfig = new UglifyEsPlugin({
 	mangle: {
 		reserved: [
                 	'Buffer',
-                        'BigInteger',
-                        'Point',
-                        'ECPubKey',
-                        'ECKey',
-                        'sha512_asm',
-                        'asm',
-                        'ECPair',
-                        'HDNode'
+                  'BigInteger',
+                  'Point',
+                  'ECPubKey',
+                  'ECKey',
+                  'sha512_asm',
+                  'asm',
+                  'ECPair',
+                  'HDNode'
                 ]
         }
 })
@@ -62,9 +62,9 @@ module.exports = {
     ]
   },
   plugins: [
-	HtmlWebpackPluginConfig, 
-	ManifestAssetPlugin, 
-	IconAssetPlugin,
-	UglifyEsPluginConfig
- ]
+    HtmlWebpackPluginConfig, 
+    ManifestAssetPlugin, 
+    IconAssetPlugin,
+    UglifyEsPluginConfig
+  ]
 }
